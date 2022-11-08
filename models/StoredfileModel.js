@@ -13,6 +13,12 @@ const file = mongoose.Schema({
   time: {
     type: String,
   },
+  file_type: {
+    type: String,
+  },
+  file_name: {
+    type: String,
+  },
 });
 
 const StoreFile = new mongoose.model("file", file);

@@ -8,7 +8,7 @@ const drive = google.drive({
   auth: oauth2Client,
 });
 
-async function generatePublicUrl(fileId, user_id, filePath) {
+async function generatePublicUrl(fileId, user_id, filePath, file) {
   try {
     //change file permisions to public.
     await drive.permissions.create({
@@ -30,6 +30,8 @@ async function generatePublicUrl(fileId, user_id, filePath) {
       link: data.webViewLink,
       image_id: fileId,
       time: createdTime,
+      file_type: file.mimetype,
+      file_name: file.originalname,
     });
     await file.save();
     fs.unlink(filePath, function (err) {
@@ -41,7 +43,7 @@ async function generatePublicUrl(fileId, user_id, filePath) {
   }
 }
 
-exports.uploadFile = async (path, filename, user_id) => {
+exports.uploadFile = async (path, filename, user_id, file) => {
   try {
     const response = await drive.files.create({
       requestBody: {
@@ -55,7 +57,7 @@ exports.uploadFile = async (path, filename, user_id) => {
       },
     });
     // report the response from the request
-    await generatePublicUrl(response.data.id, user_id, path);
+    await generatePublicUrl(response.data.id, user_id, path, file);
   } catch (error) {
     console.log(error);
   }

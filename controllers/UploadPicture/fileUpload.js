@@ -16,7 +16,7 @@ exports.uploadPicture = async (req, res) => {
         `/uploads/${file.originalname}.jpg`
       );
       let filename = file.originalname;
-      uploadFile(filepath, filename, _id)
+      uploadFile(filepath, filename, _id, file)
         .then(() => console.log("File uploaded"))
         .catch(() => console.log("File not uploaded"));
     });
