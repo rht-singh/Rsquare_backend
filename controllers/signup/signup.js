@@ -9,7 +9,8 @@ exports.register = async (req, res) => {
     if (!first_name || !last_name || !phone || !email || !password)
       throw new Error("Please send all the credentials");
     const verified = "No";
-    const exists = await User.findOne({ where: { email } });
+    const exists = await User.findOne({ email });
+    console.log(exists);
     if (!exists) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const token = await jwt.sign({ email: email }, "6763gwywstgw", {
